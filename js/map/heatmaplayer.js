@@ -186,6 +186,7 @@
 		 * @returns {void}
 		 */
 		HeatMapLayer.prototype.stop = function() {
+			this.resetTiles();
 			this.fire("animation_done", {});
 		};
 
@@ -219,17 +220,17 @@
 				}
 
 				var toDraw = [];
-				var xxx = _this.data[_this.lowIndex].points;
-				for(var j = 0; j < xxx.length; j++) {
-					var d = xxx[j];
+				var points = _this.data[_this.lowIndex].points;
+				for(var j = 0; j < points.length; j++) {
+					var d = points[j];
 					toDraw.push({
 						lat: d.lat,
 						lng: d.lon,
-						count: d.val * 1000
+						count: d.val * 30
 					});
 				}
-				_this.fire("datechange", {
-					dateMoment: _this.data[_this.lowIndex].date
+				_this.fire("date_change", {
+					date: _this.data[_this.lowIndex].date * 1000
 				});
 				_this.setDataRaw(toDraw);
 				return window.requestAnimFrame(function() {

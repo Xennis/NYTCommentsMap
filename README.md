@@ -21,14 +21,14 @@ JavaScript libraries
 ```
 var sampleData = { ... , "data":
 [
-    {"date":1306188000000, "points":
+    {"date":1306188000, "points":
         [
             {"lat":32.0,"lon":-16.5,"val":0.00056},
             {"lat":36.0,"lon":-14.5,"val":0.02756},
             ...
         ]
     },
-    {"date":1306191600000, "points":
+    {"date":1306191600, "points":
         [
             {"lat":33.0,"lon":-17.5,"val":0.00236},
             {"lat":37.0,"lon":-15.5,"val":0.03156},
@@ -38,4 +38,4 @@ var sampleData = { ... , "data":
     ...
 ]};
 ```
-(The `data` array contains entries, which have a timestamp in milliseconds as `date` and an array named `points`. This neasted array contains all points for the spefic `date` and each entry has a location (latitude `lat` and longitude `lon`) and a value `val`.)
+(The `data` array contains entries, which have a timestamp in seconds as `date` and an array named `points`. This neasted array contains all points for the spefic `date` and each entry has a location (latitude `lat` and longitude `lon`) and a value `val`.)

@@ -33,23 +33,24 @@
 		heatmapLayer = new HeatMapLayer();
 	
 		// Display time
-		heatmapLayer.on("datechange", function(d) {
-			var date = new Date(d.dateMoment);
+		heatmapLayer.on("date_change", function(d) {
+			var date = new Date(d.date);
 			return $("h2").html(date.toLocaleString());
 		});
 	
 		heatmapLayer.on("animation_done", function() {
-			$("button").html("Start");
+			mapDisplay.map.removeLayer(heatmapLayer);
+			$("#button_start").html("Start");
 		});	
 	
-		mapDisplay.map.addLayer(heatmapLayer);
 		heatmapLayer.setData(sampleData.data);
-		$("button").html("Start");
-		$("button").prop("disabled", false);
+		$("#button_start").html("Start");
+		$("#button_start").prop("disabled", false);
 		heatDataLoaded = true;
 
-		return $("button").click(function() {
+		$("#button_start").click(function() {
 			if ($(this).text() === "Start") {
+				mapDisplay.map.addLayer(heatmapLayer);
 				$(this).html("Pause");
 				return heatmapLayer.animate();
 			} else if ($(this).text() === "Pause") {
