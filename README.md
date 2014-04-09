@@ -1,8 +1,14 @@
-NYT Comments Map
-==============
+# Animated JavaScript Heatmap on OpenStreetMap
 
-An NYT hack day project to show a day in the life of the New York Times through the locations of user comments.
+This code is a fork of [NYTCommentsMap](https://github.com/alastaircoote/NYTCommentsMap) by [Alastair Coote](https://github.com/alastaircoote)!
 
-If you have arrived here having seen the map and are curious to check out the code, I can only 
-apologise. It is a horrible, horrible mess that I created in less than 24 hours at the hack day. I absolutely 
-intend to tidy this up and make an independent, workable heat map layer from this code in the future.
+### Used software
+
+JavaScript libraries
+
+* [jQuery](http://jquery.com) (v1.11.0)
+* [RequireJS](http://requirejs.org/) (v2.1.11)
+* [Leaflet](http://leafletjs.com/) (v0.7.2)
+* [Heatmap.js](http://www.patrick-wied.at/static/heatmapjs/) (modified v1.0)
+
+    The Heatmap.js is modified by Alastair Coot to improve the performance. Further informations you find in this blog article [Improving canvas performance – never underestimate copy and paste](http://blogging.alastair.is/improving-performance-never-underestimate-copy-and-paste/).
