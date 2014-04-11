@@ -22,7 +22,7 @@
 		}
 	});
 
-	requirejs(["js/map/mapdisplay", "js/map/heatmaplayer", "js/data/sampleData", "jquery"], function(MapDisplay, HeatMapLayer) {
+	requirejs(["js/map/mapdisplay", "js/map/heatmap-layer", "js/map/heatmap-legend", "js/data/sampleData", "jquery"], function(MapDisplay, HeatMapLayer, HeatMapLegend) {
 		var allowStart, heatDataLoaded, heatmapLayer, mapDisplay;
 		mapDisplay = new MapDisplay($("#map"));
 		allowStart = function() {
@@ -61,6 +61,13 @@
 				return heatmapLayer.resume();
 			}
 		});
+		
+		heatMapLegend = new HeatMapLegend({
+            position: 'br',
+            title: 'Example Distribution',
+            gradient: { 0.45: "rgb(0,0,255)", 0.55: "rgb(0,255,255)", 0.65: "rgb(0,255,0)", 0.95: "yellow", 1.0: "rgb(255,0,0)"}
+        });
+        document.body.appendChild(heatMapLegend.getElement());
 	});
 
 }).call(this);

@@ -6,8 +6,6 @@
  * and the Beerware (http://en.wikipedia.org/wiki/Beerware) license.
  */
 
-
-
 (function(w){
     // the heatmapFactory creates heatmap instances
     var heatmapFactory = (function(){
@@ -143,9 +141,7 @@
             this.setDataSet(randomset);
         }
     };
-
-  
-
+ 
     // heatmap object constructor
     var heatmap = function heatmap(config){
         // private variables
@@ -213,18 +209,21 @@
         },
         resize: function () {
 
-                var element = this.get("element"),
-                    canvas = this.get("canvas"),
-                    acanvas = this.get("acanvas");
+                var me = this,
+                    element = me.get("element"),
+                    canvas = me.get("canvas"),
+                    acanvas = me.get("acanvas");
                 acanvas.width = canvas.width
                 acanvas.height = canvas.height
                 this.set("width", canvas.width);
                 this.set("height", canvas.height);
                 return;
-                canvas.width = acanvas.width = element.style.width.replace(/px/, "") || this.getWidth(element);
+                /*
+                canvas.width = acanvas.width = element.style.width.replace(/px/, "") || me.getWidth(element);
                 this.set("width", canvas.width);
-                canvas.height = acanvas.height = element.style.height.replace(/px/, "") || this.getHeight(element);
+                canvas.height = acanvas.height = element.style.height.replace(/px/, "") || me.getHeight(element);
                 this.set("height", canvas.height);
+                */
         },
 
         init: function(){
@@ -337,7 +336,6 @@
             return height;
         },
         colorize: function(x, y){
-                var colorStart = new Date().valueOf();
                 // get the private variables
                 var me = this,
                     width = me.get("width"),
@@ -394,10 +392,7 @@
                     }    
                 }
                 if (bottom-top == 0 || right-left == 0) return;
-                //left = 0;top=0;right=256;bottom=256;
-                //console.log(left,top,right,bottom)
                 image = actx.getImageData(left, top, right-left, bottom-top);
-                //image = actx.getImageData(0, 0, 256, 256);
                 imageData = image.data;
                 length = imageData.length;
                 // loop thru the area
@@ -447,17 +442,18 @@
                 ctx.shadowOffsetX = 1000;
                 ctx.shadowOffsetY = 1000;
                 ctx.shadowBlur = 15;
-                //console.log(points)
                 for (var i = 0;i<points.length;i++) {
                     var point = points[i]
                     var x = point.x, y = point.y, count = point.count,
                         xb = x - (1.5 * radius) >> 0, yb = y - (1.5 * radius) >> 0,
                         xc = x + (1.5 * radius) >> 0, yc = y + (1.5 * radius) >> 0;
-                    /*ctx.shadowColor = ('rgba(255,0,0,'+((count)?(count/me.store.max):'0.1')+')');
+                    /*
+                    ctx.shadowColor = ('rgba(255,0,0,'+((count)?(count/me.store.max):'0.1')+')');
                     ctx.beginPath();
                     ctx.arc(x - 1000, y - 1000, radius, 0, Math.PI * 2, true);
                     ctx.closePath();
-                    ctx.fill();*/
+                    ctx.fill();
+                    */
 
                     offset = blob.width / 2
                     test = (count/me.store.max)

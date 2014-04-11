@@ -6,7 +6,7 @@
  */
 (function() {
 
-	define(["jslib/leaflet", "./heatmaplayer"], function(leaflet, h) {
+	define(["jslib/leaflet", "./heatmap-layer"], function(leaflet, h) {
 		var MapDisplay;
 		return MapDisplay = (function() {
 

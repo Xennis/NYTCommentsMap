@@ -16,7 +16,7 @@
 	 * @param {type} HeatMapTile
 	 * @returns {HeatMapLayer}
 	 */
-	define(["jslib/leaflet", "jslib/heatmap", "./heatmaptile"], function(L, HeatMap, HeatMapTile) {
+	define(["jslib/leaflet", "jslib/heatmap", "./heatmap-tile"], function(L, HeatMap, HeatMapTile) {
 		var HeatMapLayer;
 		
 		window.requestAnimFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
