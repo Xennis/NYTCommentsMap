@@ -32,6 +32,12 @@
 		heatDataLoaded = false;
 		heatmapLayer = new HeatMapLayer();
 	
+		heatMapLegend = new HeatMapLegend({
+            title: 'Example Distribution',
+            gradient: { 0.45: "rgb(0,0,255)", 0.55: "rgb(0,255,255)", 0.65: "rgb(0,255,0)", 0.95: "yellow", 1.0: "rgb(255,0,0)"}
+        });
+        document.body.appendChild(heatMapLegend.getElement());
+	
 		// Display time
 		heatmapLayer.on("date_change", function(d) {
 			var date = new Date(d.date);
@@ -62,12 +68,6 @@
 			}
 		});
 		
-		heatMapLegend = new HeatMapLegend({
-            position: 'br',
-            title: 'Example Distribution',
-            gradient: { 0.45: "rgb(0,0,255)", 0.55: "rgb(0,255,255)", 0.65: "rgb(0,255,0)", 0.95: "yellow", 1.0: "rgb(255,0,0)"}
-        });
-        document.body.appendChild(heatMapLegend.getElement());
 	});
 
 }).call(this);

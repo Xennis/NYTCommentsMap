@@ -1,3 +1,11 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * Heatmap (including date and button)
+ */
 #map {
   position: absolute;
   width: 100%;
@@ -31,7 +39,36 @@ h2 {
   padding: 10px 0;
   text-transform: uppercase;
 }
-body {
-  margin: 0;
-  padding: 0;
-}
+
+/*
+ * Heatmap legend
+ */
+ #legend {
+	color:#cccccc;
+	position:absolute;
+	bottom:10px;;
+	right:10px;;
+	font-family:Helvetica;
+	width:256px;
+	z-index:10000000000;
+	background:#000000;
+	padding:10px;
+	border:solid 1px #aaa;
+	margin:0;	 
+ }
+ #legend h3 {
+	font-size:16px;
+	font-weight:normal;
+	padding:0;
+	margin:0;
+	text-align:center;
+ }
+ #legend ul {
+	position:relative;
+	font-size:12px;
+	display:block;
+	list-style:none;
+	list-style-type:none;
+	margin:0;
+	height:15px;	 
+ }

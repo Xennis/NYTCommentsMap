@@ -41,8 +41,6 @@
 					var me = this,
 						config = me.config,
 						title = config.title || "Legend",
-						position = config.position,
-						offset = config.offset || 10,
 						gconfig = config.gradient,
 						labelsEl = document.createElement("ul"),
 						labelsHtml = "",
@@ -50,32 +48,14 @@
 
 					me.processGradientObject();
 
-					// Positioning
-
-					// top or bottom
-					if(position.indexOf('t') > -1){
-						positionCss += 'top:'+offset+'px;';
-					}else{
-						positionCss += 'bottom:'+offset+'px;';
-					}
-
-					// left or right
-					if(position.indexOf('l') > -1){
-						positionCss += 'left:'+offset+'px;';
-					}else{
-						positionCss += 'right:'+offset+'px;';
-					}
-
 					element = document.createElement("div");
-					element.style.cssText = "border-radius:5px;position:absolute;"+positionCss+"font-family:Helvetica; width:256px;z-index:10000000000; background:rgba(255,255,255,1);padding:10px;border:1px solid black;margin:0;";
-					element.innerHTML = "<h3 style='padding:0;margin:0;text-align:center;font-size:16px;'>"+title+"</h3>";
+					element.id = "legend";
+					element.innerHTML = "<h3>"+title+"</h3>";
 					// create gradient in canvas
-					labelsEl.style.cssText = "position:relative;font-size:12px;display:block;list-style:none;list-style-type:none;margin:0;height:15px;";
-
 
 					// create gradient element
 					gradient = document.createElement("div");
-					gradient.style.cssText = ["position:relative;display:block;width:256px;height:15px;border-bottom:1px solid black; background-image:url(",me.createGradientImage(),");"].join("");
+					gradient.style.cssText = ["position:relative;display:block;width:256px;height:15px;border-bottom:1px solid #aaa; background-image:url(",me.createGradientImage(),");"].join("");
 
 					element.appendChild(labelsEl);
 					element.appendChild(gradient);
@@ -122,7 +102,7 @@
 
 					ctx.fillStyle = grad;
 					ctx.fillRect(0,5,256,10);
-					ctx.strokeStyle = "black";
+					ctx.strokeStyle = "#aaa";
 					ctx.beginPath();
 
 					for(var i = 0; i < length; i++){
