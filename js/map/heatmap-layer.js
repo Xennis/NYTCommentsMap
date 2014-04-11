@@ -53,6 +53,7 @@
 			this.resetTiles = __bind(this.resetTiles, this);
 			this.tiles = [];
 			this.stopAnimation = false;
+			this.lowIndex = 0;
 		}
 
 		/**
@@ -169,12 +170,16 @@
 		/**
 		 * Resume the animation.
 		 * 
+		 * @param {number|null} Array index resuming point
 		 * @returns {function|undefined}
 		 */
-		HeatMapLayer.prototype.resume = function() {
+		HeatMapLayer.prototype.resume = function(index) {
 			console.log("resume");
 			if (!this.hasEverStarted || !this.paused) {
 				return console.log("resume: NO");
+			}
+			if (index >= 0) {
+				this.lowIndex = index;
 			}
 			this.paused = false;
 			return this.animate();
@@ -186,6 +191,7 @@
 		 * @returns {void}
 		 */
 		HeatMapLayer.prototype.stop = function() {
+			this.lowIndex = 0;
 			this.resetTiles();
 			this.fire("animation_done", {});
 		};
@@ -203,7 +209,7 @@
 			 * 
 			 * @type number
 			 */
-			this.lowIndex = 0;
+//			this.lowIndex = 0;
 		
 			/**
 			 * 

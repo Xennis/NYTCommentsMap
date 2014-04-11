@@ -23,12 +23,8 @@
 	});
 
 	requirejs(["js/map/mapdisplay", "js/map/heatmap-layer", "js/map/heatmap-legend", "js/data/sampleData", "jquery"], function(MapDisplay, HeatMapLayer, HeatMapLegend) {
-		var allowStart, heatDataLoaded, heatmapLayer, mapDisplay;
+		var allowStart, resetElements, setHeatData, heatDataLoaded, heatmapLayer, heatMapLegend, mapDisplay;
 		mapDisplay = new MapDisplay($("#map"));
-		allowStart = function() {
-			$("button").html("Start");
-			return $("button").prop("disabled", false);
-		};
 		heatDataLoaded = false;
 		heatmapLayer = new HeatMapLayer();
 	
@@ -38,23 +34,41 @@
         });
         document.body.appendChild(heatMapLegend.getElement());
 	
+		var button_start = $("#button_start"); 
+		var slider_date = $("#slider_date");
+
+		allowStart = function() {
+			button_start.html("Start");
+			button_start.prop("disabled", false);
+			slider_date.prop("disabled", false);
+		};
+		
+		resetElements = function() {
+			mapDisplay.map.removeLayer(heatmapLayer);
+			slider_date.val(0);
+			button_start.html("Start");			
+		};
+		
+		setHeatData = function(sampleData) {
+			slider_date.attr('max', sampleData.data.length);
+			heatmapLayer.setData(sampleData.data);
+			heatDataLoaded = true;
+		};
+		
 		// Display time
 		heatmapLayer.on("date_change", function(d) {
+			slider_date.val(Number(slider_date.val())+1);
+			
 			var date = new Date(d.date);
 			return $("h2").html(date.toLocaleString());
 		});
 	
-		heatmapLayer.on("animation_done", function() {
-			mapDisplay.map.removeLayer(heatmapLayer);
-			$("#button_start").html("Start");
-		});	
+		heatmapLayer.on("animation_done", resetElements);	
 	
-		heatmapLayer.setData(sampleData.data);
-		$("#button_start").html("Start");
-		$("#button_start").prop("disabled", false);
-		heatDataLoaded = true;
+		setHeatData(sampleData);
+		allowStart();
 
-		$("#button_start").click(function() {
+		button_start.click(function() {
 			if ($(this).text() === "Start") {
 				mapDisplay.map.addLayer(heatmapLayer);
 				$(this).html("Pause");
@@ -66,6 +80,11 @@
 				$(this).html("Pause");
 				return heatmapLayer.resume();
 			}
+		});
+		
+		slider_date.change(function() {
+			heatmapLayer.pause();
+			heatmapLayer.resume($(this).val());
 		});
 		
 	});
