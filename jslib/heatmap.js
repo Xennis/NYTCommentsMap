@@ -199,13 +199,13 @@
                 me.set("width", config.width || 0);
                 me.set("height", config.height || 0);
                 me.set("debug", config.debug);
-
+/*
                 if(config.legend){
                     var legendCfg = config.legend;
                     legendCfg.gradient = me.get("gradient");
                     me.set("legend", new legend(legendCfg));
                 }
-                
+*/                
         },
         resize: function () {
 
@@ -213,8 +213,8 @@
                     element = me.get("element"),
                     canvas = me.get("canvas"),
                     acanvas = me.get("acanvas");
-                acanvas.width = canvas.width
-                acanvas.height = canvas.height
+                acanvas.width = canvas.width;
+                acanvas.height = canvas.height;
                 this.set("width", canvas.width);
                 this.set("height", canvas.height);
                 return;
@@ -295,21 +295,21 @@
             var radius = me.get("radius"), shadowBlur = 15;
             blobcanvas = document.createElement("canvas");
             blobcanvas.width = blobcanvas.height = radius+(shadowBlur*2);
-            bctx = blobcanvas.getContext("2d")
+            bctx = blobcanvas.getContext("2d");
 
             
 
             bctx.shadowOffsetX = 1000;
             bctx.shadowOffsetY = 1000;
             bctx.shadowBlur = shadowBlur;
-            bctx.shadowColor = 'rgba(0,0,0,1)'
+            bctx.shadowColor = 'rgba(0,0,0,1)';
             //console.log(points)
             bctx.beginPath();
             bctx.arc((blobcanvas.width/2) - 1000, (blobcanvas.width/2) - 1000, radius, 0, Math.PI * 2, true);
             bctx.closePath();
             bctx.fill();
-            $("body").append(blobcanvas)
-            me.set("blobcanvas",blobcanvas)
+            $("body").append(blobcanvas);
+            me.set("blobcanvas",blobcanvas);
 
 
         },
@@ -435,7 +435,7 @@
                     radius = me.get("radius"),
                     ctx = me.get("actx"),
                     max = me.get("max"),
-                    bounds = me.get("bounds")
+                    bounds = me.get("bounds");
                     //xb = x - (1.5 * radius) >> 0, yb = y - (1.5 * radius) >> 0,
                     //xc = x + (1.5 * radius) >> 0, yc = y + (1.5 * radius) >> 0;
                     blob = me.get("blobcanvas");
@@ -455,14 +455,14 @@
                     ctx.fill();
                     */
 
-                    offset = blob.width / 2
-                    test = (count/me.store.max)
+                    offset = blob.width / 2;
+                    test = (count/me.store.max);
                     if (test < 0 || test > 1) {
                         //console.log (count,me.store.max,test)
-                        test = 1
+                        test = 1;
                     }
-                    ctx.globalAlpha = ((count)?(test):0.1)
-                    ctx.drawImage(blob,x-offset,y-offset)
+                    ctx.globalAlpha = ((count)?(test):0.1);
+                    ctx.drawImage(blob,x-offset,y-offset);
 
 
                     if(xb < bounds["l"]){
@@ -543,7 +543,7 @@
                         x = ev.offsetX;
                         y = ev.offsetY;
                     }
-                    if(typeof(x)=='undefined')
+                    if(typeof(x) == 'undefined')
                         return;
 
                     return [x,y];

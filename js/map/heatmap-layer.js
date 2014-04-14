@@ -14,7 +14,7 @@
 	 * @param {type} L
 	 * @param {type} HeatMap
 	 * @param {type} HeatMapTile
-	 * @returns {HeatMapLayer}
+	 * @return {HeatMapLayer}
 	 */
 	define(["jslib/leaflet", "jslib/heatmap", "./heatmap-tile"], function(L, HeatMap, HeatMapTile) {
 		var HeatMapLayer;
@@ -39,7 +39,7 @@
 		 * 
 		 * @constructor
 		 * @param {Array} options Not used
-		 * @returns {void}
+		 * @return {void}
 		 */
 		function HeatMapLayer(options) {
 			this.setDataRaw = __bind(this.setDataRaw, this);
@@ -59,18 +59,18 @@
 		/**
 		 * Creates a HeatMapTile and adds it to the tiles array.
 		 * 
-		 * @param {type} canvas
-		 * @param {type} point
-		 * @returns {void}
+		 * @param {HTMLCanvasElement} canvas
+		 * @param {L.point} point
+		 * @return {void}
 		 */
 		HeatMapLayer.prototype.drawTile = function(canvas, point) {
-			this.tiles.push(new HeatMapTile(this, canvas, point, 10));
+			this.tiles.push(new HeatMapTile(this, canvas, point, 5, 2.17));
 		};
 
 		/**
 		 * Clears the tiles array.
 		 * 
-		 * @returns {Array} Empty array
+		 * @return {Array} Empty array
 		 */
 		HeatMapLayer.prototype.resetTiles = function() {
 			return this.tiles = [];
@@ -79,16 +79,16 @@
 		/**
 		 * Catch and handle map events like zoom in / out.
 		 * 
-		 * @param {type} map
-		 * @returns {function}
+		 * @param {L.map} map
+		 * @return {function}
 		 */
 		HeatMapLayer.prototype.onAdd = function(map) {
 			var _this = this;
 			map.on("zoomstart", function() {
-				var tile, _i, _len, _ref;
+				var tile;
 				_this.pause();
-				_ref = _this.tiles;
-				for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+				var _ref = _this.tiles;
+				for (var _i = 0, _len = _ref.length; _i < _len; _i++) {
 					tile = _ref[_i];
 					tile.hm.clear();
 				}
@@ -111,8 +111,8 @@
 		/**
 		 * Sets the radius and returns it
 		 * 
-		 * @param {type} map
-		 * @returns {number}
+		 * @param {L.map} map
+		 * @return {number}
 		 */
 		HeatMapLayer.prototype.setRadius = function(map) {
 			return this.radius = 10;
@@ -121,7 +121,7 @@
 		/**
 		 * Adjusts tiles after zoom: Reset parameters/data and redraw tiles.
 		 * 
-		 * @returns {function}
+		 * @return {function}
 		 */
 		HeatMapLayer.prototype.adjustTilesAfterZoom = function() {
 			this.setRadius(this._map);
@@ -134,13 +134,13 @@
 		/**
 		 * Redraws the tiles.
 		 * 
-		 * @returns {Array}
+		 * @return {Array}
 		 */
 		HeatMapLayer.prototype.redrawAllTiles = function() {
-			var tile, _i, _len, _ref, _results;
-			_ref = this.tiles;
-			_results = [];
-			for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+			var tile;
+			var _ref = this.tiles;
+			var _results = [];
+			for (var _i = 0, _len = _ref.length; _i < _len; _i++) {
 				tile = _ref[_i];
 				_results.push(tile.draw());
 			}
@@ -151,7 +151,7 @@
 		 * Set and returns the data.
 		 * 
 		 * @param {type} data
-		 * @returns {array}
+		 * @return {array}
 		 */
 		HeatMapLayer.prototype.setData = function(data) {
 			return this.data = data;
@@ -160,7 +160,7 @@
 		/**
 		 * Pauses the animation.
 		 * 
-		 * @returns {void}
+		 * @return {void}
 		 */
 		HeatMapLayer.prototype.pause = function() {
 			console.log("pause");
@@ -171,7 +171,7 @@
 		 * Resume the animation.
 		 * 
 		 * @param {number|null} Array index resuming point
-		 * @returns {function|undefined}
+		 * @return {function|undefined}
 		 */
 		HeatMapLayer.prototype.resume = function(index) {
 			console.log("resume");
@@ -188,7 +188,7 @@
 		/**
 		 * Stops the animation.
 		 * 
-		 * @returns {void}
+		 * @return {void}
 		 */
 		HeatMapLayer.prototype.stop = function() {
 			this.lowIndex = 0;
@@ -199,17 +199,11 @@
 		/**
 		 * Animates the given data set.
 		 * 
-		 * @returns {function}
+		 * @return {function}
 		 */
 		HeatMapLayer.prototype.animate = function() {
 			var doDraw, _this = this;
 			this.hasEverStarted = true;
-			/**
-			 * Lox index position in the given data array.
-			 * 
-			 * @type number
-			 */
-//			this.lowIndex = 0;
 		
 			/**
 			 * 
@@ -232,7 +226,7 @@
 					toDraw.push({
 						lat: d.lat,
 						lng: d.lon,
-						count: d.val * 30
+						count: d.val
 					});
 				}
 				_this.fire("date_change", {
@@ -252,7 +246,7 @@
 		 * Sets the raw data and calls the function to redraw the tiles.
 		 * 
 		 * @param {type} data
-		 * @returns {function}
+		 * @return {function}
 		 */
 		HeatMapLayer.prototype.setDataRaw = function(data) {
 			var _this = this;

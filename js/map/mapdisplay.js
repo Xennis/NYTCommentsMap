@@ -10,9 +10,15 @@
 		var MapDisplay;
 		return MapDisplay = (function() {
 
+			/**
+			 * MapDisplay
+			 * 
+			 * @constructor
+			 * @param {HTMLElement|String} target Div element or its ID
+			 * @return {void}
+			 */
 			function MapDisplay(target) {
-				var sttileLayer, tileLayer,
-					_this = this;
+				var sttileLayer, tileLayer;
 				this.mapEl = target;
 				this.map = L.map(this.mapEl[0], {
 					fadeAnimation: false,

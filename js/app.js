@@ -23,12 +23,12 @@
 	});
 
 	requirejs(["js/map/mapdisplay", "js/map/heatmap-layer", "js/map/heatmap-legend", "js/data/sampleData", "jquery"], function(MapDisplay, HeatMapLayer, HeatMapLegend) {
-		var allowStart, resetElements, setHeatData, heatDataLoaded, heatmapLayer, heatMapLegend, mapDisplay;
-		mapDisplay = new MapDisplay($("#map"));
-		heatDataLoaded = false;
-		heatmapLayer = new HeatMapLayer();
+		var allowStart, resetElements, setHeatData;
+		var mapDisplay = new MapDisplay($("#map"));
+		var heatDataLoaded = false;
+		var heatmapLayer = new HeatMapLayer();
 	
-		heatMapLegend = new HeatMapLegend({
+		var heatMapLegend = new HeatMapLegend({
             title: 'Example Distribution',
             gradient: { 0.45: "rgb(0,0,255)", 0.55: "rgb(0,255,255)", 0.65: "rgb(0,255,0)", 0.95: "yellow", 1.0: "rgb(255,0,0)"}
         });
@@ -44,6 +44,7 @@
 		};
 		
 		resetElements = function() {
+			$("h2").html("");
 			mapDisplay.map.removeLayer(heatmapLayer);
 			slider_date.val(0);
 			button_start.html("Start");			
