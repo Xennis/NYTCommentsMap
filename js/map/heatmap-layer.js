@@ -32,7 +32,7 @@
 		 * 
 		 * @type {boolean}
 		 */
-		HeatMapLayer.prototype.paused = false;
+//		HeatMapLayer.prototype.isPaused = false;
 
 		/**
 		 * Creates a HeatMapLayer.
@@ -43,24 +43,29 @@
 		 */
 		function HeatMapLayer(options) {
 			this.setDataRaw = __bind(this.setDataRaw, this);
+			this.showMoment = __bind(this.showMoment, this);
 			this.animate = __bind(this.animate, this);
-			this.resume = __bind(this.resume, this);
-			this.pause = __bind(this.pause, this);
-			this.stop = __bind(this.stop, this);
+			this.animationStart = __bind(this.animationStart, this);			
+			this.animationResume = __bind(this.animationResume, this);
+			this.animationPause = __bind(this.animationPause, this);
+			this.animationStop = __bind(this.animationStop, this);
+			this.animationLoop = __bind(this.animationLoop, this);			
 			this.setData = __bind(this.setData, this);
 			this.adjustTilesAfterZoom = __bind(this.adjustTilesAfterZoom, this);
 			this.setRadius = __bind(this.setRadius, this);
 			this.resetTiles = __bind(this.resetTiles, this);
 			this.tiles = [];
-			this.stopAnimation = false;
-			this.lowIndex = 0;
+			this.isPaused = false;
+			this.isLooped = false;
+			this.momentIndex = 0;
 		}
 
 		/**
 		 * Creates a HeatMapTile and adds it to the tiles array.
 		 * 
+		 * @override L.tileLayer.canvas.drawTile ??
 		 * @param {HTMLCanvasElement} canvas
-		 * @param {L.point} point
+		 * @param {L.point} tilePoint
 		 * @return {void}
 		 */
 		HeatMapLayer.prototype.drawTile = function(canvas, point) {
@@ -86,7 +91,7 @@
 			var _this = this;
 			map.on("zoomstart", function() {
 				var tile;
-				_this.pause();
+				_this.animationPause();
 				var _ref = _this.tiles;
 				for (var _i = 0, _len = _ref.length; _i < _len; _i++) {
 					tile = _ref[_i];
@@ -94,17 +99,17 @@
 				}
 				return _this.resetTiles();
 			});
-			map.on("zoomend", this.resume);
-			map.on("moveend", this.resume);
-			map.on("movestart", this.pause);
+			map.on("zoomend", this.animationResume);
+			map.on("moveend", this.animationResume);
+			map.on("movestart", this.animationPause);
 			this.setRadius(map);
-			map.on("click", function() {
-				if (_this.paused) {
-					return _this.resume();
-				} else {
-					return _this.pause();
-				}
-			});
+//			map.on("click", function() {
+//				if (_this.isPaused) {
+//					return _this.animationResume();
+//				} else {
+//					return _this.animationPause();
+//				}
+//			});
 			return HeatMapLayer.__super__.onAdd.call(this, map);
 		};
 
@@ -148,52 +153,51 @@
 		};
 
 		/**
-		 * Set and returns the data.
+		 * Sets the data.
 		 * 
-		 * @param {type} data
-		 * @return {array}
-		 */
-		HeatMapLayer.prototype.setData = function(data) {
-			return this.data = data;
-		};
-
-		/**
-		 * Pauses the animation.
-		 * 
+		 * @param {Object} data
 		 * @return {void}
 		 */
-		HeatMapLayer.prototype.pause = function() {
-			console.log("pause");
-			this.paused = true;
-		};
-
-		/**
-		 * Resume the animation.
-		 * 
-		 * @param {number|null} Array index resuming point
-		 * @return {function|undefined}
-		 */
-		HeatMapLayer.prototype.resume = function(index) {
-			console.log("resume");
-			if (!this.hasEverStarted || !this.paused) {
-				return console.log("resume: NO");
-			}
-			if (index >= 0) {
-				this.lowIndex = index;
-			}
-			this.paused = false;
-			return this.animate();
+		HeatMapLayer.prototype.setData = function(data) {
+			this.data = data;
 		};
 		
 		/**
-		 * Stops the animation.
+		 * Sets the speed of the animation.
 		 * 
+		 * @param {number} speed_fps Speed in frames per seconds
 		 * @return {void}
 		 */
-		HeatMapLayer.prototype.stop = function() {
-			this.lowIndex = 0;
-			this.resetTiles();
-			this.fire("animation_done", {});
+		HeatMapLayer.prototype.setSpeed = function(speed_fps) {
+			this.speed_fpms = 1000 / speed_fps;
+		};		
+		
+		/**
+		 * Shows a specific moment.
+		 * 
+		 * @param {number} index A index of the given data array.
+		 * @return {void}
+		 */		
+		HeatMapLayer.prototype.showMoment = function(index) {		
+			if (index) {
+				this.momentIndex = index;
+			}
+			var toDraw = [];
+			var dataEntry = this.data[this.momentIndex];
+			var points = dataEntry.points;
+			for(var j = 0; j < points.length; j++) {
+				var d = points[j];
+				toDraw.push({
+					lat: d.lat,
+					lng: d.lon,
+					count: d.val * 30
+				});
+			}
+			this.fire("date_change", {
+				index: this.momentIndex,
+				date: dataEntry.date * 1000
+			});
+			this.setDataRaw(toDraw);
 		};
 
 		/**
@@ -202,37 +206,25 @@
 		 * @return {function}
 		 */
 		HeatMapLayer.prototype.animate = function() {
-			var doDraw, _this = this;
+			var _this = this;
 			this.hasEverStarted = true;
 		
-			/**
-			 * 
-			 */
-			doDraw = function() {
-
-				if (_this.paused) {
+			var doDraw = function() {
+				if (_this.isPaused) {
 					return;
 				}
 
-				_this.lowIndex++;
-				if (_this.lowIndex >= _this.data.length) {
-					return _this.stop();
+				_this.showMoment();
+				_this.momentIndex++;
+				if (_this.momentIndex >= _this.data.length) {
+					if (_this.isLooped) {
+						_this.momentIndex = 0;
+					} else {
+						_this.animationStop();
+						return;
+					}
 				}
-
-				var toDraw = [];
-				var points = _this.data[_this.lowIndex].points;
-				for(var j = 0; j < points.length; j++) {
-					var d = points[j];
-					toDraw.push({
-						lat: d.lat,
-						lng: d.lon,
-						count: d.val
-					});
-				}
-				_this.fire("date_change", {
-					date: _this.data[_this.lowIndex].date * 1000
-				});
-				_this.setDataRaw(toDraw);
+				
 				return window.requestAnimFrame(function() {
 					return doDraw();
 				});
@@ -240,6 +232,65 @@
 			return window.requestAnimFrame(function() {
 				return doDraw();
 			});
+		};
+
+		/**
+		 * Starts the animation.
+		 * 
+		 * @return {void}
+		 */
+		HeatMapLayer.prototype.animationStart = function() {
+			var _debugStartTime = new Date().getTime();
+			console.log("animation started at " + _debugStartTime);
+			this.isPaused = false;
+			this.momentIndex = 0;
+			this.animate();
+		};
+
+		/**
+		 * Pauses the animation.
+		 * 
+		 * @return {void}
+		 */
+		HeatMapLayer.prototype.animationPause = function() {
+			this.isPaused = true;
+		};
+
+		/**
+		 * Pauses the animation.
+		 * 
+		 * @return {void}
+		 */	
+		HeatMapLayer.prototype.animationResume = function() {
+			console.log("resume");
+			if (!this.hasEverStarted || !this.isPaused) {
+				return console.log("resume: NO");
+			}
+			this.isPaused = false;
+			this.animate();
+		};
+		
+		/**
+		 * Stops the animation.
+		 * 
+		 * @return {void}
+		 */
+		HeatMapLayer.prototype.animationStop = function() {
+			var _debugEndTime = new Date().getTime();
+			console.log("animation stoped at " + _debugEndTime);
+			this.momentIndex = 0;
+//			this.resetTiles();
+			this.fire("animation_done", {});
+		};
+
+		/**
+		 * Set animation to a endless loop.
+		 * 
+		 * @param {boolean} isLooped True to activate endless loop
+		 * @return {void}
+		 */	
+		HeatMapLayer.prototype.animationLoop = function(isLooped) {
+				this.isLooped = isLooped;
 		};
 
 		/**

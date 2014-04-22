@@ -18,22 +18,20 @@
 			 * @return {void}
 			 */
 			function MapDisplay(target) {
-				var sttileLayer, tileLayer;
 				this.mapEl = target;
+				
+				var tileLayer = L.tileLayer('http://{s}.tiles.mapbox.com/v3/alastaircoote.map-n7irpmld/{z}/{x}/{y}.png', {maxZoom: 18});
+				//tileLayer.addTo(this.map);
+				var sttileLayer = L.tileLayer('http://{s}.tiles.mapbox.com/v3/alastaircoote.map-rjqv06av/{z}/{x}/{y}.png', {maxZoom: 18, zIndex: 100});
+				//sttileLayer.addTo(this.map);
+				
 				this.map = L.map(this.mapEl[0], {
-					fadeAnimation: false,
+					center: [60.5, -8],
 					zoom: 4,
-					center: [60.5, -8]
+					layers: [tileLayer, sttileLayer],
+					fadeAnimation: false
 				});
-				tileLayer = L.tileLayer('http://{s}.tiles.mapbox.com/v3/alastaircoote.map-n7irpmld/{z}/{x}/{y}.png', {
-					maxZoom: 18
-				});
-				tileLayer.addTo(this.map);
-				sttileLayer = L.tileLayer('http://{s}.tiles.mapbox.com/v3/alastaircoote.map-rjqv06av/{z}/{x}/{y}.png', {
-					maxZoom: 18,
-					zIndex: 100
-				});
-				sttileLayer.addTo(this.map);
+				
 				return;
 			}
 

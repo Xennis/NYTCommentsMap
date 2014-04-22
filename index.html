@@ -1,0 +1,56 @@
+<!DOCTYPE html lang="en-UK">
+<html>
+    <head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+        <title>Leaflet - Animated Heatmap</title>
+		
+		<link href='http://fonts.googleapis.com/css?family=Roboto:300' rel='stylesheet' type='text/css'>		
+        <link rel="stylesheet" href="css/leaflet.css" type="text/css"/>		
+        <link rel="stylesheet" href="css/app.css" type="text/css"/>
+    </head>
+    <body>
+        <div id="map"></div>
+		<div id="navigation">
+			<fieldset>
+				<legend>Animate</legend>
+				<button id="button_start">Start</button>
+				<button id="button_pause" disabled="disabled">Pause</button>
+				|
+				<label for="input_date">Date</label>
+				<input type="text" id="input_date" disabled="disabled" />
+				|
+				<label for="select_data">Data</label>
+				<select id="select_data" disabled="disabled">
+					<option value="zamgTestData1">ZAMG</option>
+					<option value="zamgTestData2">ZAMG2</option>
+					<option value="seviriTestData1">SEVIRI</option>
+				</select>
+			</fieldset>
+			<fieldset>
+				<legend>Animation settings</legend>
+				<label for="checkbox_loop">Loop</label>
+				<input type="checkbox" id="checkbox_loop" />
+				| 
+				<label for="select_visualization">Visualization</label>
+				<select id="select_visualization" disabled="disabled">
+					<option value="heatmap">Heatmap</option>
+				</select>
+				|
+				<label for="select_speed">Speed</label>
+				<select id="select_speed" disabled="disabled">
+					<option value="1">Super slow (1fps)</option>
+					<option value="5">Slow (5fps)</option>
+					<option value="10" selected>Medium (10fps)</option>
+					<option value="15">Fast (15fps)</option>
+					<option value="1000">No limit</option>
+				</select>			
+			</fieldset>
+			<input type="range" id="slider_date" min="0" step="1"  value="0"/>
+		</div>
+		
+        <script data-main="js/app" src="jslib/require.js"></script>
+
+    </body>
+</html>
