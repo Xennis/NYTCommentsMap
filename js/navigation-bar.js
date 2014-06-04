@@ -120,15 +120,16 @@ return NavigationBar = (function() {
 		});
 
 		this.select_data.change(function() {
+			// Not implemented
+			/*
 			_this.animatedLayer.animationStop();
 			var val = $(this).val();
-			if (val === 'seviriTestData1') {
-				setData(seviriTestData1.data, options);
-			} else if (val === 'zamgTestData1') {
-				setData(zamgTestData1.data, options2);
-			} else if (val === 'zamgTestData2') {
-				setData(zamgTestData2.data, options);
+			if (val === 'sampleData') {
+				setData(sampleData.data, options);
+			} else if (val === 'sampleData2') {
+				setData(sampleData2.data, options2);
 			}
+			*/
 		});		
 		
 		this.slider_date.change(function() {

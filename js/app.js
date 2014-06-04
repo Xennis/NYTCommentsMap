@@ -52,7 +52,7 @@
 			navigationBar.reset();
 		});	
 	
-		setHeatData(sampleData.data);
+		setHeatData(zamgTestData1.data);
 	});
 
 }).call(this);

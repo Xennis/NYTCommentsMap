@@ -2,4 +2,12 @@
 ## NetBeans
 ############
 
-nbproject
+nbproject/
+
+
+############
+## Custom
+############
+
+data/
+leaflet-src.js

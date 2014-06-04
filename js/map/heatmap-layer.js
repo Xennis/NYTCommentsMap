@@ -69,7 +69,8 @@
 		 * @return {void}
 		 */
 		HeatMapLayer.prototype.drawTile = function(canvas, point) {
-			this.tiles.push(new HeatMapTile(this, canvas, point, 5, 2.17));
+			var max = 0.378;
+			this.tiles.push(new HeatMapTile(this, canvas, point, this.radius, max));
 		};
 
 		/**
@@ -97,11 +98,11 @@
 					tile = _ref[_i];
 					tile.hm.clear();
 				}
-				return _this.resetTiles();
+				_this.resetTiles();
 			});
-			map.on("zoomend", this.animationResume);
-			map.on("moveend", this.animationResume);
-			map.on("movestart", this.animationPause);
+			map.on("zoomend", this.showMoment);
+			map.on("moveend", this.showMoment);
+//			map.on("movestart", this.animationPause);
 			this.setRadius(map);
 //			map.on("click", function() {
 //				if (_this.isPaused) {
@@ -179,7 +180,7 @@
 		 * @return {void}
 		 */		
 		HeatMapLayer.prototype.showMoment = function(index) {		
-			if (index) {
+			if (index >= 0) {
 				this.momentIndex = index;
 			}
 			var toDraw = [];

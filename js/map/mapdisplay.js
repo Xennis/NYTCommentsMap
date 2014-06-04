@@ -20,13 +20,16 @@
 			function MapDisplay(target) {
 				this.mapEl = target;
 				
-				var tileLayer = L.tileLayer('http://{s}.tiles.mapbox.com/v3/alastaircoote.map-n7irpmld/{z}/{x}/{y}.png', {maxZoom: 18});
-				//tileLayer.addTo(this.map);
-				var sttileLayer = L.tileLayer('http://{s}.tiles.mapbox.com/v3/alastaircoote.map-rjqv06av/{z}/{x}/{y}.png', {maxZoom: 18, zIndex: 100});
-				//sttileLayer.addTo(this.map);
+				var tileLayer = L.tileLayer('http://{s}.tiles.mapbox.com/v3/alastaircoote.map-n7irpmld/{z}/{x}/{y}.png', {
+					maxZoom: 18
+				});
+				var sttileLayer = L.tileLayer('http://{s}.tiles.mapbox.com/v3/alastaircoote.map-rjqv06av/{z}/{x}/{y}.png', {
+					maxZoom: 18,
+					zIndex: 100
+				});
 				
 				this.map = L.map(this.mapEl[0], {
-					center: [60.5, -8],
+					center: [47, 20],
 					zoom: 4,
 					layers: [tileLayer, sttileLayer],
 					fadeAnimation: false

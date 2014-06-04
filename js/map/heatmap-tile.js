@@ -44,7 +44,9 @@
 			 */
 			HeatMapTile.prototype.calculateBounds = function(radius) {
 				this.radius = radius;
+				// South west
 				var sw = this.xy.clone().subtract([this.radius * 2, 0]).add([0, (this.radius * 2) + this.layer.options.tileSize]);
+				// North east
 				var ne = this.xy.clone().add([(this.radius * 2) + this.layer.options.tileSize, 0]).subtract([0, this.radius * 2]);
 				this.pixelBounds = new L.Bounds(sw, ne);
 				this.tileBounds = new L.LatLngBounds(this.layer._map.unproject(sw), this.layer._map.unproject(ne));
@@ -63,7 +65,7 @@
 					radius: this.radius
 				});
 			};
-
+			
 			/**
 			 * Draws
 			 * 
