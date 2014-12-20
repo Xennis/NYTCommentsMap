@@ -22,7 +22,7 @@
 		}
 	});
 
-	requirejs(["js/map/mapdisplay", "js/map/heatmap-layer", "js/map/heatmap-legend", "js/navigation-bar.js", "js/data/sampleData", "jquery"], function(MapDisplay, HeatMapLayer, HeatMapLegend, NavigationBar) {
+	requirejs(["js/map/mapdisplay", "js/map/heatmap-layer", "js/map/heatmap-legend", "js/navigation-bar", "data/sampleData", "jquery"], function(MapDisplay, HeatMapLayer, HeatMapLegend, NavigationBar) {
 		var setHeatData;
 		var mapDisplay = new MapDisplay($("#map"));
 		var heatmapLayer = new HeatMapLayer();
@@ -52,7 +52,7 @@
 			navigationBar.reset();
 		});	
 	
-		setHeatData(zamgTestData1.data);
+		setHeatData(sampleData1.data);
 	});
 
 }).call(this);

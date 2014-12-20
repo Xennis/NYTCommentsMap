@@ -16,7 +16,7 @@ JavaScript libraries
 ### Getting started
 
 * Open the [mapdisplay.js](js/map/mapdisplay.js) and modify the parameters in the function ´MapDisplay´
-* Create the file `js/data/sampleData.js` and insert your data:
+* Create the file `data/sampleData.js` and insert your data:
 
 ```
 var sampleData = { ... , "data":
